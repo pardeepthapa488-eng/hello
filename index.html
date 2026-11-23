@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISP Managing</title>
+    <meta name="theme-color" content="#17233b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-mark">I</div>
+            <div>
+                <strong>ISP Managing</strong>
+                <span>Billing console</span>
+            </div>
+        </div>
+
+        <nav>
+            <button class="nav-item active" data-view="dashboard">Dashboard</button>
+            <button class="nav-item" data-view="customers">Customers</button>
+            <button class="nav-item" data-view="billing">Billing</button>
+            <button class="nav-item" data-view="payments">Payment</button>
+        </nav>
+
+        <button class="nav-item reset-data" id="resetData">Reset all data</button>
+    </aside>
+
+    <main>
+        <header>
+            <div>
+                <p class="eyebrow" id="today"></p>
+                <h1 id="pageTitle">Dashboard</h1>
+            </div>
+            <button class="primary" id="openCustomerModal" hidden>+ Add customer</button>
+        </header>
+
+        <section class="view active" id="dashboardView">
+            <div class="stats">
+                <button class="stat stat-link" data-customer-status="all">
+                    <span>Total customers</span>
+                    <strong id="customerCount">0</strong>
+                </button>
+                <button class="stat stat-link dashboard-paid" data-customer-status="Paid">
+                    <span>Paid customers</span>
+                    <strong id="paidCount">0</strong>
+                </button>
+                <button class="stat stat-link dashboard-unpaid" data-customer-status="Pending">
+                    <span>Unpaid customers</span>
+                    <strong id="unpaidCount">0</strong>
+                </button>
+                <button class="stat stat-link dashboard-overdue" data-customer-status="Overdue">
+                    <span>Overdue customers <span aria-hidden="true">⏰</span></span>
+                    <strong id="overdueCount">0</strong>
+                </button>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Recent customers</h2>
+                        <p>Latest customer activity</p>
+                    </div>
+                    <button class="secondary" data-go="customers">View all</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Plan</th>
+                                <th>Fee</th>
+                                <th>Status</th>
+                                <th>Installed</th>
+                                <th>Paid on</th>
+                                <th>Expires at</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentCustomerRows"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="view" id="customersView">
+            <div class="toolbar">
+                <input type="search" id="customerSearch" placeholder="Search name, phone or username...">
+                <select id="statusFilter">
+                    <option value="all">All statuses</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Pending">Unpaid</option>
+                    <option value="Overdue">Overdue</option>
+                </select>
+            </div>
+            <div class="panel">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                        <th>Username</th>
+                                <th>Customer</th>
+                                <th>Phone</th>
+                                <th>Plan</th>
+                                        <th>Duration</th>
+                                <th>Fee</th>
+                                <th>Status</th>
+                                        <th>Installed</th>
+                                        <th>Paid on</th>
+                                <th>Expires at</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="customerRows"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="view" id="billingView">
+            <div class="toolbar">
+                <h2>Package installation history</h2>
+            </div>
+            <div class="panel">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Customer</th>
+                                <th>Plan</th>
+                                <th>Duration</th>
+                                <th>Fee</th>
+                                <th>Installed at</th>
+                                <th>Expires at</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="billingRows"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="view" id="paymentsView">
+            <div class="stats">
+                <article class="stat payment-monthly">
+                    <span>Monthly revenue</span>
+                    <strong id="monthlyRevenue">Rs. 0</strong>
+                </article>
+                <article class="stat payment-yearly">
+                    <span>Yearly revenue</span>
+                    <strong id="yearlyRevenue">Rs. 0</strong>
+                </article>
+                <article class="stat payment-unpaid">
+                    <span>Unpaid amount</span>
+                    <strong id="unpaidAmount">Rs. 0</strong>
+                </article>
+                <article class="stat payment-overdue">
+                    <span>Overdue amount <span aria-hidden="true">⏰</span></span>
+                    <strong id="overdueAmount">Rs. 0</strong>
+                </article>
+                <article class="stat payment-total">
+                    <span>Total revenue</span>
+                    <strong id="totalRevenue">Rs. 0</strong>
+                </article>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Payment history</h2>
+                        <p>Recorded customer payments</p>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Customer</th>
+                                <th>Payment date</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentRows"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal-backdrop" id="customerModal" aria-hidden="true">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="customerModalTitle">Add customer</h2>
+                <button class="icon-button" id="closeCustomerModal" aria-label="Close">&times;</button>
+            </div>
+            <form id="customerForm">
+                <label>Full name<input name="name" required></label>
+                <label>Phone<input name="phone" required></label>
+                <label>Username<input name="username" required></label>
+                <div class="initial-package-fields">
+                    <h3>Initial package</h3>
+                    <div class="form-grid">
+                        <label>Plan
+                            <select name="plan">
+                                <option>30 Mbps</option>
+                                <option>50 Mbps</option>
+                                <option>80 Mbps</option>
+                                <option>100 Mbps</option>
+                                <option>200 Mbps</option>
+                            </select>
+                        </label>
+                        <label>Fee (Rs.)<input name="fee" type="number" min="1" required></label>
+                    </div>
+                    <div class="form-grid">
+                        <label>Duration
+                            <select name="months">
+                                <option value="1">1 month</option>
+                                <option value="3">3 months</option>
+                                <option value="6">6 months</option>
+                                <option value="12">12 months</option>
+                            </select>
+                        </label>
+                        <label>Status
+                            <select name="status">
+                                <option>Pending</option>
+                                <option>Paid</option>
+                            </select>
+                        </label>
+                        <label>Installed at<input name="installDate" type="datetime-local" required></label>
+                        <label>Payment date<input name="paymentDate" type="date"></label>
+                        <label>Expires at<input name="expiresAtPreview" type="datetime-local" readonly></label>
+                    </div>
+                </div>
+                <button class="primary form-submit" type="submit" id="saveCustomerButton">Save customer</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-backdrop" id="packageModal" aria-hidden="true">
+        <div class="modal">
+            <div class="modal-header">
+                <div>
+                    <h2>Install package</h2>
+                    <p id="packageCustomerName"></p>
+                </div>
+                <button class="icon-button" id="closePackageModal" aria-label="Close">&times;</button>
+            </div>
+            <form id="packageForm">
+                <div class="form-grid">
+                    <label>Plan
+                        <select name="plan">
+                            <option>30 Mbps</option>
+                            <option>50 Mbps</option>
+                            <option>80 Mbps</option>
+                            <option>100 Mbps</option>
+                            <option>200 Mbps</option>
+                        </select>
+                    </label>
+                    <label>Fee (Rs.)<input name="fee" type="number" min="1" required></label>
+                </div>
+                <div class="form-grid">
+                    <label>Duration
+                        <select name="months">
+                            <option value="1">1 month</option>
+                            <option value="3">3 months</option>
+                            <option value="6">6 months</option>
+                            <option value="12">12 months</option>
+                        </select>
+                    </label>
+                    <label>Status
+                        <select name="status">
+                            <option>Pending</option>
+                            <option>Paid</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="form-grid">
+                    <label>Installed at<input name="installDate" type="datetime-local" required></label>
+                    <label>Expires at<input name="expiresAtPreview" type="datetime-local" readonly></label>
+                </div>
+                <label>Payment date<input name="paymentDate" type="date"></label>
+                <button class="primary form-submit" type="submit">Install package</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="ff.js"></script>
+</body>
+</html>
