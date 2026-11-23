@@ -284,6 +284,9 @@ const customerForm = document.getElementById("customerForm");
 const initialFields = document.querySelector(".initial-package-fields");
 const packageModal = document.getElementById("packageModal");
 const packageForm = document.getElementById("packageForm");
+const resetPinModal = document.getElementById("resetPinModal");
+const resetPinForm = document.getElementById("resetPinForm");
+const resetPinError = document.getElementById("resetPinError");
 
 function refreshExpiry(form) {
     form.elements.expiresAtPreview.value = expiryDate(form.elements.installDate.value, form.elements.months.value);
@@ -488,13 +491,30 @@ document.addEventListener("click", (event) => {
     render();
 });
 
+function closeResetPinModal() {
+    resetPinModal.classList.remove("open");
+    resetPinModal.setAttribute("aria-hidden", "true");
+}
+
 document.getElementById("resetData").addEventListener("click", () => {
-    const enteredPin = window.prompt("Enter the reset PIN.");
-    if (enteredPin === null) return;
-    if (enteredPin !== RESET_PIN) {
-        window.alert("Incorrect PIN. Data was not reset.");
+    resetPinForm.reset();
+    resetPinError.textContent = "";
+    resetPinModal.classList.add("open");
+    resetPinModal.setAttribute("aria-hidden", "false");
+    resetPinForm.elements.pin.focus();
+});
+document.getElementById("closeResetPinModal").addEventListener("click", closeResetPinModal);
+resetPinModal.addEventListener("click", (event) => {
+    if (event.target === resetPinModal) closeResetPinModal();
+});
+resetPinForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (resetPinForm.elements.pin.value !== RESET_PIN) {
+        resetPinError.textContent = "Incorrect PIN. Data was not reset.";
+        resetPinForm.elements.pin.focus();
         return;
     }
+    closeResetPinModal();
     if (!window.confirm("Reset all customer and payment data? This cannot be undone.")) return;
     if (!window.confirm("Confirm again to permanently erase all customer and payment data.")) return;
     customers = [];
