@@ -1,9 +1,9 @@
-const CACHE_NAME = "isp-billing-v7";
+const CACHE_NAME = "isp-billing-v8";
 const CACHE_PREFIX = "isp-billing-";
 const ASSETS = [
   "./in.html",
   "./style.css",
-  "./ff.js",
+  "./ff.js?v=7",
   "./manifest.webmanifest",
   "./icon.svg"
 ];
