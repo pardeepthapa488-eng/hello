@@ -1,4 +1,4 @@
-const CACHE_NAME = "isp-billing-v5";
+const CACHE_NAME = "isp-billing-v6";
 const CACHE_PREFIX = "isp-billing-";
 const ASSETS = [
   "./in.html",
