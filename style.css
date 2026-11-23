@@ -70,8 +70,6 @@ nav { display: grid; gap: 6px; }
 }
 
 .nav-item:hover, .nav-item.active { background: #263653; color: white; }
-.reset-data { margin-top: auto; color: #aeb7ca; }
-
 main {
     margin-left: 220px;
     min-height: 100vh;
@@ -87,6 +85,8 @@ header, .panel-header, .toolbar {
 }
 
 header { margin-bottom: 24px; }
+.header-actions { display: flex; align-items: center; gap: 8px; }
+.reset-data { padding: 7px 10px; font-size: 12px; white-space: nowrap; }
 h1 { margin: 4px 0 0; font-size: 28px; }
 h2 { margin: 0; font-size: 17px; }
 .eyebrow { margin: 0; color: var(--muted); font-size: 13px; }
@@ -249,8 +249,9 @@ form input, form select { width: 100%; border: 1px solid var(--border); border-r
     .sidebar { position: static; width: 100%; height: auto; padding: 12px; }
     .brand { margin-bottom: 10px; }
     nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .reset-data { margin-top: 6px; }
     main { margin-left: 0; padding: 20px 16px; }
+    header { flex-wrap: wrap; gap: 10px; }
+    .header-actions { margin-left: auto; }
     .stats { grid-template-columns: 1fr; }
     .toolbar { align-items: stretch; }
     .toolbar input { width: 100%; }

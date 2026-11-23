@@ -28,7 +28,6 @@
             <button class="nav-item" data-view="payments">Payment</button>
         </nav>
 
-        <button class="nav-item reset-data" id="resetData">Reset all data</button>
     </aside>
 
     <main>
@@ -37,7 +36,10 @@
                 <p class="eyebrow" id="today"></p>
                 <h1 id="pageTitle">Dashboard</h1>
             </div>
-            <button class="primary" id="openCustomerModal" hidden>+ Add customer</button>
+            <div class="header-actions">
+                <button class="primary" id="openCustomerModal" hidden>+ Add customer</button>
+                <button class="secondary reset-data" id="resetData">Reset all data</button>
+            </div>
         </header>
 
         <section class="view active" id="dashboardView">
