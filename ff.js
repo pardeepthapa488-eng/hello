@@ -1,6 +1,7 @@
 const CUSTOMER_KEY = "ispBillingCustomers";
 const PAYMENT_KEY = "ispBillingPayments";
 const DAYS_BY_MONTHS = { 1: 30, 3: 90, 6: 182, 12: 365 };
+const RESET_PIN = "1234";
 
 const demoCustomers = [
     { id: "1", username: "aarav.sharma", name: "Aarav Sharma", phone: "9800000001", plan: "100 Mbps", months: 1, fee: 2500, status: "Paid", installDate: "2026-10-30", paymentDate: "2026-11-20", dueDate: "2026-11-30" },
@@ -488,6 +489,12 @@ document.addEventListener("click", (event) => {
 });
 
 document.getElementById("resetData").addEventListener("click", () => {
+    const enteredPin = window.prompt("Enter the reset PIN.");
+    if (enteredPin === null) return;
+    if (enteredPin !== RESET_PIN) {
+        window.alert("Incorrect PIN. Data was not reset.");
+        return;
+    }
     if (!window.confirm("Reset all customer and payment data? This cannot be undone.")) return;
     if (!window.confirm("Confirm again to permanently erase all customer and payment data.")) return;
     customers = [];
